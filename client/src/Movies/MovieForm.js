@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState } from 'react';
+// import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const initialItem = {
@@ -12,38 +12,29 @@ const initialItem = {
 
 const MovieForm = (props) =>{
     const [movieData, setMovieData]=useState(initialItem);
-    const { id } = useParams();
+    // const { id } = useParams();
 
-    useEffect(() => {
-        const movieToUpdate = props.items.find(movie => `${movie.id}` === id);
     
-        if (movieToUpdate) {
-          setMovieData(movieToUpdate);
-        }
-      }, [props.items, id]);
-    
-      const changeHandler = event => {
-        event.persist();
-        let value = event.target.value;
-        if (event.target.name === 'price') {
-          value = parseInt(value, 10);
-        }
-    
-        setMovieData({
-          ...movieData,
-          [event.target.name]: value
-        });
-      };
+       const changeHandler = event =>{
+           setMovieData({...movieData,[event.target.name]:event.target.value})
+       }
     
       const handleSubmit = event => {
         event.preventDefault();
         axios
           .put(`http://localhost:5000/api/movies/${movieData.id}`, movieData)
           .then(res => {
-            props.setMovieData(res.data);
+            setMovieData(res.data);
             props.history.push(`/update-movie/${movieData.id}`);
           })
           .catch(err => console.log(err));
+          setMovieData({
+            id: '',
+            title: '',
+            director: '',
+            metascore: '',
+            stars: [],
+          })
       };
 
     return (
