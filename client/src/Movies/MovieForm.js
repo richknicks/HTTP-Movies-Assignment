@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-// import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const initialItem = {
@@ -12,8 +12,14 @@ const initialItem = {
 
 const MovieForm = (props) =>{
     const [movieData, setMovieData]=useState(initialItem);
-    // const { id } = useParams();
+    const { id } = useParams();
+useEffect(()=>{
+    const updateMovie = props.movies.find(movie=>`${movie.id}`===id);
+    if(updateMovie) {
+        setMovieData(updateMovie)
+    }
 
+}, [props.movies, id]);
     
        const changeHandler = event =>{
            setMovieData({...movieData,[event.target.name]:event.target.value})
@@ -24,8 +30,10 @@ const MovieForm = (props) =>{
         axios
           .put(`http://localhost:5000/api/movies/${movieData.id}`, movieData)
           .then(res => {
-            setMovieData(res.data);
-            props.history.push(`/update-movie/${movieData.id}`);
+            // setMovieData(res.data);
+            console.log('updating')
+            props.getMovieList()
+            props.history.push('/');
           })
           .catch(err => console.log(err));
           setMovieData({
@@ -69,7 +77,7 @@ const MovieForm = (props) =>{
           placeholder="Stars"
           value={movieData.stars}
         />
-        <button>Update</button>
+        <button >Update</button>
       </form> 
     </div>
     )}; 

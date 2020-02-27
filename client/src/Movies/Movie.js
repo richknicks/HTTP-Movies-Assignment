@@ -26,6 +26,7 @@ function Movie(props,{ addToSavedList }) {
     return <div>Loading movie information...</div>;
   }
   const handleUpdate = e => {
+    // props.getMovieList()
     e.preventDefault();
     props.history.push(`/update-movie/${movie.id}`);
   };
@@ -35,8 +36,8 @@ function Movie(props,{ addToSavedList }) {
     axios
       .delete(`http://localhost:5000/api/movies/${movie.id}`)
       .then(res => {
-        setMovie(res.data);
-        props.history.push('/delete');
+        props.getMovieList()
+        props.history.push('/');
       })
       .catch(err => console.log(err));
   };

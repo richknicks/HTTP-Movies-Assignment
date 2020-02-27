@@ -14,11 +14,13 @@ body {
   cursor: pointer;
   position: relative;
   margin: 1rem auto;
+  text-align: center;
 }
 
 .movie-director {
   padding: 4px 0;
   font-size: 0.8rem;
+  
 }
 
 .saved-list {
