@@ -26,7 +26,6 @@ function Movie(props,{ addToSavedList }) {
     return <div>Loading movie information...</div>;
   }
   const handleUpdate = e => {
-    // props.getMovieList()
     e.preventDefault();
     props.history.push(`/update-movie/${movie.id}`);
   };
